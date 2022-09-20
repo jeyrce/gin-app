@@ -1,0 +1,26 @@
+name: "发版/标签自动构建"
+
+on:
+  push:
+    tags:
+      - "v*"
+
+env:
+  AUTH: ${{ secrets.DOCKER_HUB_TOKEN }}
+  HUB: ${{ secrets.DOCKER_HUB_NAME }}
+  COMMITID: ${{ github.sha }}
+  BRANCH: ${{ github.ref_name }}
+  VERSION: ${{ github.ref_name }}
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@main
+      - name: "登录docker仓库"
+        run: docker login -u "$HUB" -p "$AUTH"
+      - name: "构建镜像"
+        run: make image version="$VERSION" branch="$BRANCH" commitId="$COMMITID"
