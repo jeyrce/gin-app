@@ -1,0 +1,5 @@
+# 帮助github将项目判别为 go
+*.html linguist-language=go
+*.js linguist-language=go
+*.css linguist-language=go
+*.yml linguist-language=go

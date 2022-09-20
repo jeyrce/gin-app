@@ -1,0 +1,10 @@
+doc/
+.idea/
+.gitignore
+media/
+.github/
+*.tmp
+*.swap
+*.swp
+*.log
+.DS_Store

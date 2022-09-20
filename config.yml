@@ -1,0 +1,16 @@
+meta:
+  app-name: "api"
+  listen-addr: ":80"
+  url-prefix: ""
+  log-output: /dev/stdout
+  log-max-size: 50
+  log-max-age: 10
+  log-max-backup: 10
+  log-compress: false
+  media-dir: "/var/lib/app/media/"
+
+db:
+  host-port: "127.0.0.1:3306"
+  user-pass: "root:password"
+  database: "dbname"
+
