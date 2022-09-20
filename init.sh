@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2046,SC2206
-set errexit
+set -o errexit
 
 export powered_by="https://github.com/jeyrce/gin-app"
 export flag=".init_ok"
