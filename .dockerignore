@@ -1,7 +1,6 @@
 doc/
 .idea/
 .gitignore
-media/
 .github/
 *.tmp
 *.swap
