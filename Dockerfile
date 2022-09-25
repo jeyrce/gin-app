@@ -1,4 +1,4 @@
-FROM golang:1.19.1-alpine as builder
+FROM jeyrce/golang:1.18.6-alpine as builder
 ARG module
 ARG goProxy
 ENV GOPATH=/go
@@ -7,7 +7,7 @@ ENV CGO_ENABLED=0
 ENV GOPROXY=${goProxy}
 WORKDIR /go/src/${module}
 COPY . .
-RUN apk add make git
+#RUN apk add make git
 RUN make binary
 
 FROM jeyrce/alpine:3.16.2-cn as runner
@@ -17,8 +17,8 @@ ARG app
 LABEL poweredBy=${module} \
       commitId=${commitId}
 WORKDIR /usr/local/bin
-COPY ./config.yml /etc/${app}/config.yml
-#COPY ./media /var/lib/${app}/media/
+COPY config.yml /etc/${app}/config.yml
+COPY media /var/lib/${app}/media/
 COPY --from=builder /go/src/${module}/_out/* .
 EXPOSE 80
 VOLUME ["/etc/${app}/", "/var/lib/${app}/"]
