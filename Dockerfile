@@ -1,4 +1,4 @@
-FROM jeyrce/golang:1.18.6-alpine as builder
+FROM jeyrce/golang:1.19.1-alpine as builder
 ARG module
 ARG goProxy
 ENV GOPATH=/go
