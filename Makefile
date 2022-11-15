@@ -20,7 +20,7 @@ swagger:
 .phony: image
 image:
 	@-docker buildx rm tmp
-	docker buildx create --name tmp --bootstrap --use
+	@-docker buildx create --name tmp --bootstrap --use
 	docker buildx build -t ${hub}/${app}:${version} \
 		--build-arg module=${module} \
 		--build-arg app=${app} \

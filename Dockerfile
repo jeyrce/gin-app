@@ -18,7 +18,7 @@ LABEL poweredBy=${module} \
       commitId=${commitId}
 WORKDIR /usr/local/bin
 COPY config.yml /etc/${app}/config.yml
-COPY media /var/lib/${app}/media/
+COPY lib/ /var/lib/${app}/
 COPY --from=builder /go/src/${module}/_out/* .
 EXPOSE 80
 VOLUME ["/etc/${app}/", "/var/lib/${app}/"]
