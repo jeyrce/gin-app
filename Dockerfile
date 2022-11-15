@@ -1,4 +1,4 @@
-FROM jeyrce/golang:1.19.1-alpine as builder
+FROM jeyrce/golang:1.19.3-alpine as builder
 ARG module
 ARG goProxy
 ENV GOPATH=/go
@@ -22,4 +22,5 @@ COPY media /var/lib/${app}/media/
 COPY --from=builder /go/src/${module}/_out/* .
 EXPOSE 80
 VOLUME ["/etc/${app}/", "/var/lib/${app}/"]
+VOLUME ["/etc/timezone:/etc/timezone", "/etc/locatime:/etc/localtime"]
 CMD ["/usr/local/bin/${app}", "-c", "/etc/${app}/config.yml"]

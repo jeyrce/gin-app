@@ -1,8 +1,9 @@
-package api
+package handler
 
 import (
 	"net/http"
 	"path"
+	"strings"
 
 	"github.com/spf13/viper"
 
@@ -12,7 +13,7 @@ import (
 
 // 统一url前缀处理
 func U(url string) string {
-	prefix := viper.GetString(c.MetaUrlPrefix)
+	prefix := strings.TrimSpace(viper.GetString(c.MetaUrlPrefix))
 	if prefix == "" {
 		prefix = "/"
 	}
@@ -30,7 +31,7 @@ func HTTP404(c *gin.Context) {
 func HTTP405(c *gin.Context) {
 	c.AbortWithStatusJSON(http.StatusOK, gin.H{
 		"code":    http.StatusOK,
-		"message": "not allowed",
+		"message": "method not allowed",
 		"data":    nil,
 	})
 }

@@ -1,4 +1,4 @@
-﻿package main
+package main
 
 import (
 	"embed"
@@ -9,11 +9,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 
-	"github.com/jeyrce/gin-app/api"
-	"github.com/jeyrce/gin-app/api/middle"
-	v1 "github.com/jeyrce/gin-app/api/v1"
-	v2 "github.com/jeyrce/gin-app/api/v2"
-	"github.com/jeyrce/gin-app/api/view"
+	"github.com/jeyrce/gin-app/handler"
+	"github.com/jeyrce/gin-app/handler/middle"
+	v1 "github.com/jeyrce/gin-app/handler/v1"
+	v2 "github.com/jeyrce/gin-app/handler/v2"
+	"github.com/jeyrce/gin-app/handler/view"
 	// _ "github.com/jeyrce/gin-app/model"
 	c "github.com/jeyrce/gin-app/pkg/conf"
 	"github.com/jeyrce/gin-app/pkg/log"
@@ -25,16 +25,16 @@ func init() {
 	gin.SetMode(gin.ReleaseMode)
 }
 
-//go:embed tmpl
+//go:embed lib/tmpl
 var tmpl embed.FS
 
-//go:embed static
+//go:embed lib/static
 var static embed.FS
 
 //go:embed LICENSE
 var license embed.FS
 
-//go:embed favicon.ico
+//go:embed lib/favicon.ico
 var favicon embed.FS
 
 func main() {
@@ -45,15 +45,15 @@ func main() {
 	app.SetHTMLTemplate(template.Must(template.New("tmpl").ParseFS(tmpl, "tmpl/*.html")))
 	middle.Registry(app)
 	app.HandleMethodNotAllowed = true
-	app.NoRoute(api.HTTP404)
-	app.NoMethod(api.HTTP405)
+	app.NoRoute(handler.HTTP404)
+	app.NoMethod(handler.HTTP405)
 	app.StaticFS("/ui", http.FS(static))
-	app.StaticFileFS(api.U("/favicon.ico"), "./favicon.ico", http.FS(favicon))
-	app.StaticFileFS(api.U("/LICENSE"), "./LICENSE", http.FS(license))
-	v1.Registry(app.Group(api.U("/api/v1")))
-	v2.Registry(app.Group(api.U("/api/v2")))
+	app.StaticFileFS(handler.U("/favicon.ico"), "./favicon.ico", http.FS(favicon))
+	app.StaticFileFS(handler.U("/LICENSE"), "./LICENSE", http.FS(license))
+	v1.Registry(app.Group(handler.U("/api/v1")))
+	v2.Registry(app.Group(handler.U("/api/v2")))
 	// view 由于需要生成全局路由接口，必须最后加载
-	view.Registry(app, app.Group(api.U("/")))
+	view.Registry(app, app.Group(handler.U("/")))
 	if err := app.Run(viper.GetString(c.MetaListenAddr)); err != nil {
 		log.L.Panic(err)
 		os.Exit(1)
