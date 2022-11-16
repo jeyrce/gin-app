@@ -14,6 +14,7 @@ FROM jeyrce/alpine:3.16.2-cn as runner
 ARG commitId
 ARG module
 ARG app
+ENV app=${app}
 LABEL poweredBy=${module} \
       commitId=${commitId}
 WORKDIR /usr/local/bin
@@ -23,4 +24,4 @@ COPY --from=builder /go/src/${module}/_out/* .
 EXPOSE 80
 VOLUME ["/etc/${app}/", "/var/lib/${app}/"]
 VOLUME ["/etc/timezone:/etc/timezone", "/etc/locatime:/etc/localtime"]
-CMD ["/usr/local/bin/${app}", "-c", "/etc/${app}/config.yml"]
+CMD ["sh", "-c", "/usr/local/bin/${app} -c /etc/${app}/config.yml"]
