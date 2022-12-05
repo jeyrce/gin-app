@@ -5,10 +5,10 @@ import (
 	"html/template"
 	"net/http"
 	"os"
-
+	
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
-
+	
 	"github.com/jeyrce/gin-app/handler"
 	"github.com/jeyrce/gin-app/handler/middle"
 	v1 "github.com/jeyrce/gin-app/handler/v1"
@@ -42,13 +42,13 @@ func main() {
 	task.T.Start()
 	defer task.T.Stop()
 	app := gin.New()
-	app.SetHTMLTemplate(template.Must(template.New("tmpl").ParseFS(tmpl, "tmpl/*.html")))
+	app.SetHTMLTemplate(template.Must(template.New("tmpl").ParseFS(tmpl, "lib/tmpl/*.html")))
 	middle.Registry(app)
 	app.HandleMethodNotAllowed = true
 	app.NoRoute(handler.HTTP404)
 	app.NoMethod(handler.HTTP405)
 	app.StaticFS("/ui", http.FS(static))
-	app.StaticFileFS(handler.U("/favicon.ico"), "./favicon.ico", http.FS(favicon))
+	app.StaticFileFS(handler.U("/favicon.ico"), "lib/favicon.ico", http.FS(favicon))
 	app.StaticFileFS(handler.U("/LICENSE"), "./LICENSE", http.FS(license))
 	v1.Registry(app.Group(handler.U("/api/v1")))
 	v2.Registry(app.Group(handler.U("/api/v2")))

@@ -13,8 +13,8 @@ all: swagger image
 .phony: swagger
 swagger:
 	@echo "生成最新swagger描述文档"
-	swag init -o api/v1/ -g url.go --ot go -d api/v1/ --instanceName V1
-	swag init -o api/v2/ -g url.go --ot go -d api/v2/ --instanceName V2
+	swag init -o handler/v1/ -g url.go --ot go -d handler/v1/ --instanceName V1
+	swag init -o handler/v2/ -g url.go --ot go -d handler/v2/ --instanceName V2
 
 
 .phony: image
