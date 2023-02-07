@@ -19,13 +19,13 @@ if [ -f "$flag" ]; then
 else 
     read -rp "请输入项目module地址($tmpl): " module
 fi
-if [[ ! "$module" =~ ^[a-zA-Z0-9][-a-zA-Z0-9]{1,62}\.[a-zA-Z0-9][-a-zA-Z0-9]{1,62}\/.+\/.+$ ]]; then
+if [[ ! "$module" =~ ^[a-zA-Z0-9_][-a-zA-Z0-9_]{1,62}\.[a-zA-Z0-9_][-a-zA-Z0-9_]{1,62}\/.+\/.+$ ]]; then
     echo "不合法的module!"
     exit 1
 fi
 
 # step: app.go 重命名
-app_name="$(echo "$module" | awk -F/ '{print $NF}')"
+app_name="$(echo "${module//-/_}" | awk -F/ '{print $NF}' |tr '[A-Z]' '[a-z]')"
 mv app.go "$app_name".go
 
 # step: 各go文件导入路径变更 module
