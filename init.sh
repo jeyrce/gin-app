@@ -59,6 +59,10 @@ fi
 go mod download
 go install github.com/swaggo/swag/cmd/swag@latest
 
+# step: 置空README.md
+echo "$app_name" > README.md
+echo "---" >> README.md
+
 # step: 设置执行过初始化的标识
 echo "Init by $powered_by" > "$flag"
 date >> "$flag"
