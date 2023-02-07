@@ -16,7 +16,8 @@ if [ -f "$flag" ]; then
     echo "项目已经执行过初始化: "
     cat "$flag"
     exit 0
-else 
+else
+    rm -rf .git
     read -rp "请输入项目module地址($tmpl): " module
 fi
 if [[ ! "$module" =~ ^[a-zA-Z0-9_][-a-zA-Z0-9_]{1,62}\.[a-zA-Z0-9_][-a-zA-Z0-9_]{1,62}\/.+\/.+$ ]]; then
@@ -61,8 +62,6 @@ go install github.com/swaggo/swag/cmd/swag@latest
 # step: 设置执行过初始化的标识
 echo "Init by $powered_by" > "$flag"
 date >> "$flag"
-git add .
-git commit -m "init ok"
 
 echo "项目初始化完成"
 
